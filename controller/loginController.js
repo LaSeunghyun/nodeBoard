@@ -9,6 +9,7 @@ export async function getUserLoginInfo(req, res) {
         .status(400)
         .json({ error: "사용자 정보를 찾을 수 없습니다. " });
     }
+    console.log(userIdInfo);
     return userIdInfo;
   } catch (error) {
     console.error("/login 라우트 페이지 에러 발생", error);

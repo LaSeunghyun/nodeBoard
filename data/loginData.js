@@ -6,9 +6,9 @@ export async function getUserLoginInfo(userInfo) {
   const query = "SELECT * FROM tb_user where user_id = ?";
   try {
     const result = await db.execute(query, [user_id]);
-    // if (result[0] ) {
-    //   return "존재하는 아이디가 없습니다.";
-    // }
+    if (!result[0]) {
+      return "존재하는 아이디가 없습니다.";
+    }
     if (result[0][0].password != userInfo.password) {
       return "패스워드가 일치하지 않습니다.";
     }
