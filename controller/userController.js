@@ -1,4 +1,4 @@
-import * as data from "../data/userData.js";
+import * as data from "../data/__userData.js";
 
 export async function createUser(req, res) {
   const newUser = req.body;
@@ -8,13 +8,14 @@ export async function createUser(req, res) {
 
 export async function getUserInfo(req, res) {
   const userInfo = await data.getUserInfo();
+  // return userInfo;
   res.send(userInfo);
 }
 
 export async function getUserIdInfo(req, res) {
-  const { userIdx } = req.params;
-  const userIdInfo = await data.getUserIdInfo(userIdx);
-  res.send(userIdInfo);
+  const { user_id } = req.body;
+  const userIdInfo = await data.getUserIdInfo(user_id);
+  return userIdInfo[0];
 }
 
 export async function delUserIdInfo(req, res) {

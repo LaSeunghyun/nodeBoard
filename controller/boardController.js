@@ -1,4 +1,4 @@
-import * as data from "../data/boardData.js";
+import * as data from "../data/__boardData.js";
 
 export async function createBoard(req, res) {
   const newBoard = req.body;
@@ -7,8 +7,31 @@ export async function createBoard(req, res) {
 }
 
 export async function getBoardInfo(req, res) {
-  const boardInfo = await data.getBoardInfo();
-  res.send(boardInfo);
+  console.log(req.signedCookies);
+  if (req.signedCookies.isLogin) {
+    const boardInfo = await data.getBoardInfo();
+    let boardList = "";
+    boardInfo.forEach((board) => {
+      boardList += `
+      <li>Subject : ${board.subject}</li>
+      <li>Created : ${board.created}</li>
+      <li>User_id : ${board.user_id}</li>
+      <li>Hit : ${board.hit}</li>
+      <br />
+      `;
+    });
+    res.send(`
+    ${req.signedCookies.userId}님 만나서 반가워요 | <a href='/api/login/logout'>logout</a>
+    <ul>
+      ${boardList}
+    </ul>
+    `);
+  } else {
+    res.send(`
+      <h1>Welcome</h1>
+      <a href='/api/login/'>Login</a>
+    `);
+  }
 }
 
 export async function getBoardIdInfo(req, res) {
